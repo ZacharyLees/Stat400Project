@@ -1,0 +1,130 @@
+---
+title: "Stat400Project"
+author: "JamesTondt, Zach Lees, Kyler"
+date: "2023-11-29"
+output: html_document
+---
+
+## Front Matter
+
+```{r}
+#Libraries
+library(tidyverse)
+library(readr)
+library(dplyr)
+
+#Import Data
+Credit_card_fraud <- read_csv("C:/Users/20lee/Downloads/application_data.csv/application_data.csv")
+
+```
+# Research Question
+Are females at a higher risk of defaulting on loans? Does Gender have an effect on the likelihood of credit default when controlling for their total income, credit loans, and client status for credit applications.
+
+
+```{r}
+# Create a new data frame and clean data
+CCF2 <- 
+  Credit_card_fraud %>%
+  select(TARGET, CODE_GENDER, AMT_INCOME_TOTAL, AMT_CREDIT, NAME_INCOME_TYPE, NAME_EDUCATION_TYPE, NAME_FAMILY_STATUS, NAME_HOUSING_TYPE) %>%
+    filter(CODE_GENDER != "XNA") %>%    # only using M and F
+    na.omit(CCF2)   # remove any missing values
+# create indicator variable for gender
+CCF2 <- CCF2 %>%
+  mutate(is_female = ifelse(CODE_GENDER == "F", 1, 0))
+
+```
+
+```{r}
+str(CCF2)
+```
+
+```{r}
+summary(CCF2)
+```
+# Univariate Analysis
+Target is our response, this is whether the client had payment difficulties.
+```{r}
+# Barplot for Credit Fraud distribution
+ggplot(CCF2, aes(x = factor(TARGET))) +
+  geom_bar(fill = "blue") +
+  labs(title = "Distribution of Credit Fraud",
+       x = "Defaulted or Not (1 = Yes, 0 = No)",
+       y = "Count") +
+  theme_minimal()
+
+```
+
+```{r}
+# Barplot for Gender distribution
+ggplot(CCF2, aes(x = CODE_GENDER)) +
+  geom_bar(fill = "red") +
+  labs(title = "Distribution of Gender",
+       x = "Gender",
+       y = "Count") +
+  theme_minimal()
+
+```
+This is a total income, due to an error in the graph, there may be an incorrectly entered point. Removing any data exceeding an income of 1,000,000 would keep our data from having errors or excessive outliers.
+```{r}
+# Histogram for Total Income
+ggplot(CCF2, aes(x = AMT_INCOME_TOTAL)) +
+  geom_histogram(binwidth = 5000, fill = "green", color = "black") +
+  labs(title = "Distribution of Total Income",
+       x = "Total Income",
+       y = "Count") +
+  coord_cartesian(xlim = c(0, 1000000))
+# Remove income past 1,000,000
+CCF2 <- CCF2 %>% filter(AMT_INCOME_TOTAL < 1000000)
+```
+
+```{r}
+# Histogram for Credit Amount
+ggplot(CCF2, aes(x = AMT_CREDIT)) +
+  geom_histogram(binwidth = 50000, fill = "orange", color = "black") +
+  labs(title = "Distribution of Credit Amount",
+       x = "Credit Amount",
+       y = "Count") +
+  theme_minimal()
+
+```
+# Multivariate Analysis
+For a categorical and quantitative variable, we want to create side-by-side boxplots and look at summary statistics.
+
+```{r}
+
+# Scatterplot for Credit Fraud by Total Income
+ggplot(CCF2, aes(x = factor(TARGET), y = AMT_INCOME_TOTAL, color = CODE_GENDER)) +
+  geom_boxplot() +
+  labs(title = "Credit Fraud by Total Income",
+       y = "Total Income",
+       x = "Defaulted (1 = Yes, 0 = No)",
+       color = "Gender")
+
+```
+
+```{r}
+# is this meant to be different from the one above?
+# Scatterplot for Credit Fraud by Credit Amount
+ggplot(CCF2, aes(x = TARGET, y = AMT_CREDIT, color = CODE_GENDER)) +
+  geom_boxplot() +
+  labs(title = "Credit Fraud by Credit Amount",
+       y = "Credit Amount",
+       x = "Defaulted (1 = Yes, 0 = No)",
+       color = "Gender") +
+  theme_minimal()
+```
+
+
+
+```{r}
+# Barplot for Credit Fraud by Client Status
+ggplot(CCF2, aes(x = NAME_INCOME_TYPE, fill = factor(TARGET))) +
+  geom_bar(position = "dodge") +
+  labs(title = "Credit Fraud by Client Status for Credit Applications",
+       x = "Client Status",
+       fill = "Credit Fraud (1 = Yes, 0 = No)") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+```
+
