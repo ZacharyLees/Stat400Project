@@ -64,7 +64,7 @@ ggplot(CCF2, aes(x = CODE_GENDER)) +
   theme_minimal()
 
 ```
-This is a total income, due to an error in the graph, there may be an incorrectly entered point. Removing any data exceeding an income of 1,000,000 would keep our data from having errors or excessive outliers.
+This is a total income, due to an error in the graph, there may be an incorrectly entered point. Removing any data exceeding an income of 1,000,000 would keep our data from having errors or excessive outliers. We will set a maximum income value of 1,000,000 to clean our data.
 ```{r}
 # Histogram for Total Income
 ggplot(CCF2, aes(x = AMT_INCOME_TOTAL)) +
@@ -99,8 +99,18 @@ ggplot(CCF2, aes(x = factor(TARGET), y = AMT_INCOME_TOTAL, color = CODE_GENDER))
        y = "Total Income",
        x = "Defaulted (1 = Yes, 0 = No)",
        color = "Gender")
-
+summary()
 ```
+
+
+```{r}
+CCF2 %>% 
+  group_by(TARGET) %>%
+  summarize(meanMath = mean(AMT_INCOME_TOTAL),
+            medianMath = median(AMT_INCOME_TOTAL),
+            sdMath = sd(AMT_INCOME_TOTAL))
+```
+
 
 ```{r}
 # is this meant to be different from the one above?
@@ -112,6 +122,14 @@ ggplot(CCF2, aes(x = TARGET, y = AMT_CREDIT, color = CODE_GENDER)) +
        x = "Defaulted (1 = Yes, 0 = No)",
        color = "Gender") +
   theme_minimal()
+```
+
+```{r}
+CCF2 %>% 
+  group_by(TARGET) %>%
+  summarize(meanMath = mean(AMT_CREDIT),
+            medianMath = median(AMT_CREDIT),
+            sdMath = sd(AMT_CREDIT))
 ```
 
 
