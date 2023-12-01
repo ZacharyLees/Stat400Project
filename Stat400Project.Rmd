@@ -42,7 +42,7 @@ str(CCF2)
 summary(CCF2)
 ```
 # Univariate Analysis
-Target is our response, this is whether the client had payment difficulties.
+Target is our response variable, this is whether the client had payment difficulties. For study purposes Target will determine if the client is determined to have credit fraud or not.
 ```{r}
 # Barplot for Credit Fraud distribution
 ggplot(CCF2, aes(x = factor(TARGET))) +
@@ -53,7 +53,10 @@ ggplot(CCF2, aes(x = factor(TARGET))) +
   theme_minimal()
 
 ```
+Based upon a quick analysis of this graph, most of the data collected shows that Target (Yes =1) holds the vast majority of responses shown for credit fraud detection. This means that most of the clients, based upon the data, collected may be subject to credit fraud and that we can continue our analysis further to see if Target will be a good response variable to our research question.
 
+
+Continuing on with our research, we created a graph that shows the ditribution of Gender  (male or female) to observe the split between genders collected. 
 ```{r}
 # Barplot for Gender distribution
 ggplot(CCF2, aes(x = CODE_GENDER)) +
@@ -64,6 +67,9 @@ ggplot(CCF2, aes(x = CODE_GENDER)) +
   theme_minimal()
 
 ```
+Based upon the graph above we can say that about twice the amount of clients reported to be females verses males. Continuing forward in our analysis this may be something to consider before stating our results later on.
+
+
 This is a total income, due to an error in the graph, there may be an incorrectly entered point. Removing any data exceeding an income of 1,000,000 would keep our data from having errors or excessive outliers. We will set a maximum income value of 1,000,000 to clean our data.
 ```{r}
 # Histogram for Total Income
@@ -87,6 +93,8 @@ ggplot(CCF2, aes(x = AMT_CREDIT)) +
   theme_minimal()
 
 ```
+Comparing the graphs for Total Income and Credit amount, the graphs seem to be very similar. Thus it is fare to consider the fact that the credit amount of a loan is dependent on the house income and based upon the data is closely related to the same amount.
+
 # Multivariate Analysis
 For a categorical and quantitative variable, we want to create side-by-side boxplots and look at summary statistics.
 
@@ -132,7 +140,7 @@ CCF2 %>%
 ```
 
 
-
+Next we create a graph to show the realtion between credit fraud and income type.
 ```{r}
 # Barplot for Credit Fraud by Client Status
 ggplot(CCF2, aes(x = NAME_INCOME_TYPE, fill = factor(TARGET))) +
@@ -144,4 +152,6 @@ ggplot(CCF2, aes(x = NAME_INCOME_TYPE, fill = factor(TARGET))) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 ```
+Based upon the graph we can consider that there is a relationship between income type and credit fraud. 
 
+For further analysis we will create a a model and test the variables' correlations to Target and form a conclusion to our research question: Are females at a higher risk of credit fraud?/Does Gender have an effect on the likelihood of credit fraud when controlling for their total income, credit loans, and client status for credit applications.
