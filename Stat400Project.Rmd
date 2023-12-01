@@ -99,9 +99,8 @@ ggplot(CCF2, aes(x = factor(TARGET), y = AMT_INCOME_TOTAL, color = CODE_GENDER))
        y = "Total Income",
        x = "Defaulted (1 = Yes, 0 = No)",
        color = "Gender")
-summary()
 ```
-
+Regardless of defaulting or not, males have higher income in each respective quartile. Income doesn't appear to be a very strong predictor for determining if a client defaulted or not.
 
 ```{r}
 CCF2 %>% 
@@ -113,7 +112,6 @@ CCF2 %>%
 
 
 ```{r}
-# is this meant to be different from the one above?
 # Scatterplot for Credit Fraud by Credit Amount
 ggplot(CCF2, aes(x = TARGET, y = AMT_CREDIT, color = CODE_GENDER)) +
   geom_boxplot() +
@@ -123,6 +121,7 @@ ggplot(CCF2, aes(x = TARGET, y = AMT_CREDIT, color = CODE_GENDER)) +
        color = "Gender") +
   theme_minimal()
 ```
+The boxplots between male and female regarding if they defaulted or not don't appear to be very different for credit amount. Credit amount may not be a strong predictor for determining if a client defaulted or not.
 
 ```{r}
 CCF2 %>% 
