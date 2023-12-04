@@ -44,16 +44,20 @@ summary(CCF2)
 # Univariate Analysis
 Target is our response variable, this is whether the client had payment difficulties. For study purposes Target will determine if the client is determined to have credit fraud or not.
 ```{r}
+CCF2<- 
+  CCF2%>%
+  mutate(TargetYes = ifelse(TARGET == 1,"Yes","No"))
+
 # Barplot for Credit Fraud distribution
-ggplot(CCF2, aes(x = factor(TARGET))) +
+ggplot(CCF2, aes(x = TargetYes)) +
   geom_bar(fill = "blue") +
   labs(title = "Distribution of Credit Fraud",
-       x = "Defaulted or Not (1 = Yes, 0 = No)",
+       x = "Reported Credit Fraud",
        y = "Count") +
   theme_minimal()
 
 ```
-Based upon a quick analysis of this graph, most of the data collected shows that Target (Yes =1) holds the vast majority of responses shown for credit fraud detection. This means that most of the clients, based upon the data, collected may be subject to credit fraud and that we can continue our analysis further to see if Target will be a good response variable to our research question.
+Based upon a quick analysis of this graph, most of the data collected shows that TargetYes does not hold the vast majority of responses shown for credit fraud detection. This means that most of the clients, based upon the data, collected may not be subject to credit fraud and that we can continue our analysis further to see if Target will be a good response variable to our research question.
 
 
 Continuing on with our research, we created a graph that shows the ditribution of Gender  (male or female) to observe the split between genders collected. 
@@ -74,7 +78,7 @@ This is a total income, due to an error in the graph, there may be an incorrectl
 ```{r}
 # Histogram for Total Income
 ggplot(CCF2, aes(x = AMT_INCOME_TOTAL)) +
-  geom_histogram(binwidth = 5000, fill = "green", color = "black") +
+  geom_histogram(binwidth = 40000, fill = "green", color = "black") +
   labs(title = "Distribution of Total Income",
        x = "Total Income",
        y = "Count") +
@@ -86,7 +90,7 @@ CCF2 <- CCF2 %>% filter(AMT_INCOME_TOTAL < 1000000)
 ```{r}
 # Histogram for Credit Amount
 ggplot(CCF2, aes(x = AMT_CREDIT)) +
-  geom_histogram(binwidth = 50000, fill = "orange", color = "black") +
+  geom_histogram(binwidth = 100000, fill = "orange", color = "black") +
   labs(title = "Distribution of Credit Amount",
        x = "Credit Amount",
        y = "Count") +
@@ -101,18 +105,18 @@ For a categorical and quantitative variable, we want to create side-by-side boxp
 ```{r}
 
 # Scatterplot for Credit Fraud by Total Income
-ggplot(CCF2, aes(x = factor(TARGET), y = AMT_INCOME_TOTAL, color = CODE_GENDER)) +
+ggplot(CCF2, aes(x = TargetYes, y = AMT_INCOME_TOTAL, color = CODE_GENDER)) +
   geom_boxplot() +
   labs(title = "Credit Fraud by Total Income",
        y = "Total Income",
-       x = "Defaulted (1 = Yes, 0 = No)",
+       x = "Credit Fraud Depiction",
        color = "Gender")
 ```
 Regardless of defaulting or not, males have higher income in each respective quartile. Income doesn't appear to be a very strong predictor for determining if a client defaulted or not.
 
 ```{r}
 CCF2 %>% 
-  group_by(TARGET) %>%
+  group_by(TargetYes) %>%
   summarize(meanMath = mean(AMT_INCOME_TOTAL),
             medianMath = median(AMT_INCOME_TOTAL),
             sdMath = sd(AMT_INCOME_TOTAL))
@@ -121,11 +125,11 @@ CCF2 %>%
 
 ```{r}
 # Scatterplot for Credit Fraud by Credit Amount
-ggplot(CCF2, aes(x = TARGET, y = AMT_CREDIT, color = CODE_GENDER)) +
+ggplot(CCF2, aes(x = TargetYes, y = AMT_CREDIT, color = CODE_GENDER)) +
   geom_boxplot() +
   labs(title = "Credit Fraud by Credit Amount",
        y = "Credit Amount",
-       x = "Defaulted (1 = Yes, 0 = No)",
+       x = "Credit Fraud Depiction",
        color = "Gender") +
   theme_minimal()
 ```
@@ -133,7 +137,7 @@ The boxplots between male and female regarding if they defaulted or not don't ap
 
 ```{r}
 CCF2 %>% 
-  group_by(TARGET) %>%
+  group_by(TargetYes) %>%
   summarize(meanMath = mean(AMT_CREDIT),
             medianMath = median(AMT_CREDIT),
             sdMath = sd(AMT_CREDIT))
@@ -143,11 +147,12 @@ CCF2 %>%
 Next we create a graph to show the realtion between credit fraud and income type.
 ```{r}
 # Barplot for Credit Fraud by Client Status
-ggplot(CCF2, aes(x = NAME_INCOME_TYPE, fill = factor(TARGET))) +
+ggplot(CCF2, aes(x = NAME_INCOME_TYPE, fill = factor(TargetYes))) +
   geom_bar(position = "dodge") +
   labs(title = "Credit Fraud by Client Status for Credit Applications",
        x = "Client Status",
-       fill = "Credit Fraud (1 = Yes, 0 = No)") +
+       y = "Count",
+       fill = "Credit Fraud") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
