@@ -1,0 +1,22 @@
+---
+title: "STAT464_Project2"
+author: "Kyler Sturgill"
+date: "2023-12-06"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+library(haven)
+```
+
+For our dataset we chose to look at the set from https://github.com/ZacharyLees/Stat400Project/tree/main. This data set contains information about student math scores for diffeent teachers.
+
+```{r}
+dataset = read_sav("C:/Users/kyler/Downloads/1ResearchProjectData.sav")
+```
