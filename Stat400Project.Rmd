@@ -14,7 +14,8 @@ library(readr)
 library(dplyr)
 
 #Import Data
-Credit_card_fraud <- read_csv("C:/Users/kyler/Downloads/application_data.csv (1).zip")
+#C:/Users/20lee/Downloads/application_data.csv/application_data.csv
+Credit_card_fraud <- read_csv("C:/Users/20lee/Downloads/application_data.csv/application_data.csv")
 
 ```
 
