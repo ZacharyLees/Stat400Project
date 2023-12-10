@@ -14,8 +14,7 @@ library(readr)
 library(dplyr)
 
 #Import Data
-#C:/Users/20lee/Downloads/application_data.csv/application_data.csv
-Credit_card_fraud <- read_csv("C:/Users/20lee/Downloads/application_data.csv/application_data.csv")
+Credit_card_fraud <- read_csv("C:/Users/kyler/Downloads/application_data.csv (1).zip")
 
 ```
 
@@ -81,25 +80,20 @@ summary(CCF2)
 
 Target is our response variable, this is whether the client was reported to have payment difficulties. For study purposes TargetYes will determine if the client is determined to have credit fraud (yes) or not (no).
 
-Based upon a quick analysis of this graph, most of the data collected shows that TargetYes does not hold the vast majority of responses shown for credit fraud detection. This means that most of the clients, based upon the data, collected may not be subject to credit fraud and that we can continue our analysis further to see if Target will be a good response variable to our research question.
-
 ```{r}
 # Barplot for Credit Fraud distribution
 ggplot(CCF2, aes(x = TargetYes)) +
   geom_bar(fill = "blue") +
-  labs(title = "Distribution of Whether they Defaulted or Not",
-       x = "Reported Defaults",
+  labs(title = "Distribution of Credit Fraud",
+       x = "Reported Credit Fraud",
        y = "Count") +
   theme_minimal()
 
 ```
+Based upon a quick analysis of this graph, most of the data collected shows that TargetYes does not hold the vast majority of responses shown for credit fraud detection. This means that most of the clients, based upon the data, collected may not be subject to credit fraud and that we can continue our analysis further to see if Target will be a good response variable to our research question.
 
 
-
-Continuing on with our research, we created a graph that shows the distribution of Gender  (male or female) to observe the split between genders collected and reported defaults.
-
-Based upon the graph above we can say that about twice the amount of clients reported to be females verses males had no reported defaults. However, from further observation, we can see that females have a slightly higher count than males for reported defaults. Continuing forward in our data analysis we will observe other relationships between the variables.
-
+Continuing on with our research, we created a graph that shows the distribution of Gender  (male or female) to observe the split between genders collected and reported credit fraud.
 ```{r}
 # Barplot for Gender distribution
 ggplot(CCF2, aes(x = CODE_GENDER, fill = CODE_GENDER)) +
@@ -112,11 +106,10 @@ ggplot(CCF2, aes(x = CODE_GENDER, fill = CODE_GENDER)) +
   theme_minimal()
 
 ```
+Based upon the graph above we can say that about twice the amount of clients reported to be females verses males had no reported credit fraud. However, from further observation, we can see that females have a slightly higher count than males for reported credit fraud. Continuing forward in our data analysis we will observe other realtionships between the variables.
 
 
 Next we will oserve the relationship between total income and gender. Due to an error in the graph, there may be an incorrectly entered point. Removing any data exceeding an income of 1,000,000 would keep our data from having errors or excessive outliers. We will set a maximum income value of 1,000,000 to clean our data.
-
-Looking at the data comparing total income and the amount of defaults reported by gender, we can see that females typically show a pattern to have more reported defaults than the males do with the same to similar total incomes. Looking at this graph we have to keep in mind that more females than males were also surveyed, so this graph alone is not enough to provide enough evidence to support our research statement.
 ```{r}
 # Histogram for Total Income
 ggplot(CCF2, aes(x = AMT_INCOME_TOTAL, fill = CODE_GENDER)) +
@@ -130,9 +123,8 @@ ggplot(CCF2, aes(x = AMT_INCOME_TOTAL, fill = CODE_GENDER)) +
 # Remove income past 1,000,000
 CCF2 <- CCF2 %>% filter(AMT_INCOME_TOTAL < 1000000)
 ```
+Looking at the data comparing total income and the amount of credit fraud reported by gender, we can see that females typically show a pattern to have more reported credit fraud than the males do with the same to similar total incomes. Looking at this graph we have to keep in mind that more females than males were also surveyed, so this graph alone is not enough to provide enough evidence to support our research statement.
 
-
-Comparing the graphs for Total Income and Credit amount, the graphs seem to be very similar. Thus it is fair to consider the fact that the credit amount of a loan is dependent on the house income and based upon the data is closely related to the same amount.
 ```{r}
 # Histogram for Credit Amount
 ggplot(CCF2, aes(x = AMT_CREDIT)) +
@@ -143,11 +135,11 @@ ggplot(CCF2, aes(x = AMT_CREDIT)) +
   theme_minimal()
 
 ```
+Comparing the graphs for Total Income and Credit amount, the graphs seem to be very similar. Thus it is fare to consider the fact that the credit amount of a loan is dependent on the house income and based upon the data is closely related to the same amount.
 
 
 For a categorical and quantitative variable, we want to create side-by-side boxplots and look at summary statistics.
 
-Interestingly we have found that males have higher income on average in each respective quarterly. Income doesn't appear to be a very strong predictor for determining if a client defaulted or not.
 ```{r}
 
 # Scatterplot for Credit Fraud by Total Income
@@ -158,7 +150,7 @@ ggplot(CCF2, aes(x = TargetYes, y = AMT_INCOME_TOTAL, color = CODE_GENDER)) +
        x = "Credit Fraud Depiction",
        color = "Gender")
 ```
-
+Interestingly we have found that males have higher income on average in each respective quarterly. Income doesn't appear to be a very strong predictor for determining if a client defaulted or not.
 
 ```{r}
 CCF2 %>% 
@@ -168,7 +160,7 @@ CCF2 %>%
             sdMath = sd(AMT_INCOME_TOTAL), count = n())
 ```
 
-The boxplots between male and female regarding if they have reported default or not in the data don't appear to be very different for credit amount. Credit amount may not be a strong predictor for determining if a client defaulted or not. This could be because the credit amount given is not sex dependent, so males and females recieve credit on the same rate based upon thier income.
+
 ```{r}
 # Scatterplot for Credit Fraud by Credit Amount
 ggplot(CCF2, aes(x = TargetYes, y = AMT_CREDIT, color = CODE_GENDER)) +
@@ -179,7 +171,7 @@ ggplot(CCF2, aes(x = TargetYes, y = AMT_CREDIT, color = CODE_GENDER)) +
        color = "Gender") +
   theme_minimal()
 ```
-
+The boxplots between male and female regarding if they have reported credit fraud or not in the data don't appear to be very different for credit amount. Credit amount may not be a strong predictor for determining if a client defaulted or not. This could be because the credit amount given is not sex dependent, so males and females recieve credit on the same rate based upon thier income.
 
 ```{r}
 CCF2 %>% 
@@ -190,21 +182,19 @@ CCF2 %>%
 ```
 
 
-Next we create a graph to show the relation between credit fraud and income type.
-
-Based upon the graph we can consider that there is a relationship between income type and default. 
+Next we create a graph to show the realtion between credit fraud and income type.
 ```{r}
 # Barplot for Credit Fraud by Client Status
 ggplot(CCF2, aes(x = NAME_INCOME_TYPE, fill = factor(TargetYes))) +
   geom_bar(position = "dodge") +
-  labs(title = "Defaults by Client Status for Credit Applications",
+  labs(title = "Credit Fraud by Client Status for Credit Applications",
        x = "Client Status",
        y = "Count",
-       fill = "Defaulted") +
+       fill = "Credit Fraud") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 ```
-
+Based upon the graph we can consider that there is a relationship between income type and credit fraud. 
 
 For further analysis we will create a a model and test the variables' correlations to TargetYes and form a conclusion to our research question: Are females at a higher risk of credit fraud?/Does Gender have an effect on the likelihood of credit fraud when controlling for their total income, credit loans, and client status for credit applications.
