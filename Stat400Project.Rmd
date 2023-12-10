@@ -18,8 +18,8 @@ library(dplyr)
 Credit_card_fraud <- read_csv("C:/Users/20lee/Downloads/application_data.csv/application_data.csv")
 
 ```
-
-#Research Data Information
+# Part 1
+# Research Data Information
 
 Use data from:
 
@@ -47,13 +47,13 @@ AMT_CREDIT: Credit amount of the loan
 
 NAME_CLIENT_TYPE: Was the client old or new when applying for the previous application
 
-Research Question: Are females at a higher risk of credit fraud?/Does Gender have an effect on
-the likelihood of credit fraud
+Research Question: Are females at a higher risk of defaulting?/Does Gender have an effect on
+the likelihood of defaulting
 
 
 
 # Research Question Data Analysis
-Are females at a higher risk of defaulting on loans? Does Gender have an effect on the likelihood of credit default when controlling for their total income, credit loans, and client status for credit applications.
+Are females at a higher risk of defaulting on loans? Does Gender have an effect on the likelihood of defaulting when controlling for their total income, credit loans, and client status for credit applications.
 
 
 ```{r}
@@ -216,3 +216,6 @@ ggplot(CCF2, aes(x = NAME_INCOME_TYPE, fill = factor(TargetYes))) +
 
 
 For further analysis we will create a a model and test the variables' correlations to TargetYes and form a conclusion to our research question: Are females at a higher risk of credit fraud?/Does Gender have an effect on the likelihood of credit fraud when controlling for their total income, credit loans, and client status for credit applications.
+
+
+
