@@ -272,5 +272,79 @@ stats::step(model,
 
 # Part 2
 
+Research Question: Does the association between meaning and reaction time differ based on old age.
 
+Response: Reaction time (rt_sec)
+
+Level 1 observational unit: Reaction
+Level 2 observational unit: Participant
+
+Level 1 covariates: meaning, salience
+Level 2 covariates: sex, age, oldage, yrs65
+
+Fixed Effects: meaning, oldage
+Random Effects: id
+
+
+```{r}
+reaction <- read.csv("https://raw.githubusercontent.com/mkshaw/learn-mlms/master/data/hoffman2007.csv")
+```
+
+
+# Univariate Analysis
+
+Many of the reaction times are very quick, withing the first 0 to 5 seconds, and it is right skewed. 
+
+```{r}
+# analysis for rt_sec
+ggplot(reaction, aes(x = rt_sec)) +
+  geom_histogram(binwidth = 0.1) +
+  labs(title = "Distribution of Reaction Time",
+       x = "Reaction Time (rt_sec)",
+       y = "Count")
+```
+
+This is a numerical representation of how useful the picture is. It is interesting to note that it is not an equal spread, it has large amounts in 0 and 4.
+
+```{r}
+#analysis for meaning
+ggplot(reaction, aes(x = meaning)) +
+  geom_histogram(binwidth = 1, fill = "lightblue", color = "black") +
+  labs(title = "Distribution of Meaning",
+       x = "Meaning",
+       y = "Count")
+```
+
+There are more drivers we have under the age of 40 than over the age of 40.
+
+```{r}
+#analysis for oldage
+ggplot(reaction, aes(x = factor(oldage, levels = c(0, 1), labels = c("Less than 40", "Over 40")))) +
+  geom_bar(fill = "pink", color = "black") +
+  labs(title = "Distribution of Old Age",
+       x = "Old or Not",
+       y = "Count")
+```
+
+There are more females than males in this dataset.
+
+```{r}
+#analysis for sex
+ggplot(reaction, aes(x = factor(sex, levels = c(0, 1), labels = c("Male", "Female")))) +
+  geom_bar() +
+  labs(title = "Distribution of Sex",
+       x = "Sex",
+       y = "Count")
+```
+
+The age of participants is bimodial. There are many who are very young, newer drivers in their teens and twenties and large amounts of drivers within the 65 to 80 age range. This was likely done to compare the two age groups and to get large differences by using such a drastic difference in ages.
+
+```{r}
+#analysis for age
+ggplot(reaction, aes(x = age)) +
+  geom_histogram(binwidth = 5, fill = "lightgrey", color = "black") +
+  labs(title = "Distribution of Age",
+       x = "Age",
+       y = "Count")
+```
 
