@@ -217,5 +217,60 @@ ggplot(CCF2, aes(x = NAME_INCOME_TYPE, fill = factor(TargetYes))) +
 
 For further analysis we will create a a model and test the variables' correlations to TargetYes and form a conclusion to our research question: Are females at a higher risk of credit fraud?/Does Gender have an effect on the likelihood of credit fraud when controlling for their total income, credit loans, and client status for credit applications.
 
+# Analysis
+
+
+We want to analyze the model including all of our variables versus the reduced model, which doesn't include gender. 
+
+Since the difference between these two is only one variable, we can either do a Wald Test or a drop-in-deviance Test.
+
+```{r}
+#makes models
+model <- glm(TARGET ~ AMT_CREDIT + AMT_INCOME_TOTAL + NAME_INCOME_TYPE + CODE_GENDER, family = binomial, data = CCF2)
+model_reduced <- glm(TARGET ~ AMT_CREDIT + AMT_INCOME_TOTAL + NAME_INCOME_TYPE, family = binomial, data = CCF2)
+
+#compares models
+anova(model_reduced, model, test = "Chisq")
+summary(model)
+summary(model_reduced)
+```
+
+1. Hypotheses
+- Null Hypothesis: $H_0:  \beta_{GENDER} = 0$
+Implied model: $$log(\frac{p_i}{1-p_i}) = \beta_{0} + \beta_{1} x_{i,CREDIT} + \beta_{2} x_{i,INCOME_TOTAL} + \beta_{3} x_{i,INCOME_TYPE} + \epsilon_{i}$$
+- Alternative Hypothesis: $H_1: \beta_{GENDER} \ne 0$ 
+Implied model: $$log(\frac{p_i}{1-p_i}) = \beta_{0} + \beta_{1} x_{i,CREDIT} + \beta_{2} x_{i,INCOME_TOTAL} + \beta_{3} x_{i,INCOME_TYPE} + \beta_{4} x_{i,GENDER} + \epsilon_{i}$$
+
+2. Test Statistic: Drop-in-deviance = 756.44
+
+3. p-value : $p =< 2.2e-16$
+
+4. Decision: 
+Reject $H_0$. Since the p-value < 0.05, reject $H_0$.
+
+5. Conclusion: 
+We will use the model with the variable for gender.
+
+
+
+```{r}
+#problem with this
+exp(confint(model, level = 0.95))
+```
+
+From backward selection, we can see that none of the predictors we have are eliminated. This means that all of them are statistically significant. This reaffirms our drop-in-deviance test, where we were testing if a client being male or female was significant for determining defaults.
+
+```{r}
+#Perform backward selection
+stats::step(model, 
+            scope = list(lower=~1, upper=model), 
+            data = CCF2, 
+            direction = 'backward')
+```
+
+
+
+# Part 2
+
 
 
