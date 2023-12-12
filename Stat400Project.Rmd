@@ -251,7 +251,7 @@ Reject $H_0$. Since the p-value < 0.05, reject $H_0$.
 5. Conclusion: 
 We will use the model with the variable for gender.
 
-
+Looking at our model, we can see that the gender being male is positive. This means that the gender being female is a negative predictor. A negative predictor lowers our Target value, which represents the likelihood of a client defaulting or not. If someone is female, they have a lower likelihood of defaulting on a payment.
 
 ```{r}
 #problem with this
@@ -347,4 +347,44 @@ ggplot(reaction, aes(x = age)) +
        x = "Age",
        y = "Count")
 ```
+
+
+## Bivariate Analysis
+
+When comparing the groups of young and old, we see that each quartile of old has longer reaction times compared to the young boxplot. There is also more variance between the old group compared to the young group.
+
+```{r}
+#old vs young reaction time
+ggplot(reaction, aes(x = factor(oldage, labels = c("Young", "Old")), y = rt_sec, fill = factor(oldage))) +
+  geom_boxplot() +
+  labs(title = "Reaction Time vs. Old Age",
+       x = "Age Group",
+       y = "Reaction Time (rt_sec)",
+       fill = "Age Group")
+```
+
+Comparing sex with reaction time doesn't appear to be very useful, the impact of sex doesn't seem too impactful. Female does seem to have slightly more variance between it's quartiles, which may suggest they have slightly lower reaction speeds on average; however, the two groups, male and female appear very similar.
+
+```{r}
+#sex reaction time
+ggplot(reaction, aes(x = factor(sex, levels = c(0, 1), labels = c("Male", "Female")), y = rt_sec, fill = factor(sex))) +
+  geom_boxplot() +
+  labs(title = "Reaction Time vs. Sex",
+       x = "Sex",
+       y = "Reaction Time (rt_sec)",
+       fill = "Sex")
+```
+
+Salience represents how attention grabbing the picture is. As we would expect, the least attention grabbing pictures have some of the highest reaction times, while most of the more attention grabbing pictures have lower reaction times, in general.
+
+```{r}
+#salience reaction time
+ggplot(reaction, aes(x = factor(salience), y = rt_sec, fill = factor(salience))) +
+  geom_boxplot() +
+  labs(title = "Reaction Time vs. Salience",
+       x = "Salience",
+       y = "Reaction Time (rt_sec)",
+       fill = "Salience")
+```
+
 
