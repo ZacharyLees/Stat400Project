@@ -408,7 +408,6 @@ summary(model)
 anova(model)
 ```
 
-## Example 4
 ```{r}
 model.reduced <- lmer(rt_sec ~ meaning + oldage + meaning:oldage + (1 | id),
                REML = FALSE,
