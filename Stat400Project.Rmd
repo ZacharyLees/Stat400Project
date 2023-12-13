@@ -410,4 +410,4 @@ summary(model.reduced)
 coef(model.reduced)
 anova(model,model.reduced)
 ```
-
+Based upon our findings for from our standard deviation test between our full and reduced model we can say that the full model is statistically significant over the reduced model and that the association between meaning and reaction time differ based on old age. Hence we fail to reject the null hypothesis that the association between meaning and reaction time do not differ based on old age.
