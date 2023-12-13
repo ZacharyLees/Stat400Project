@@ -15,7 +15,7 @@ library(dplyr)
 
 #Import Data
 #C:/Users/20lee/Downloads/application_data.csv/application_data.csv
-Credit_card_fraud <- read_csv("C:/Users/20lee/Downloads/application_data.csv/application_data.csv")
+Credit_card_fraud <- read_csv("C:/Users/kyler/Downloads/application_data.csv (1).zip")
 
 ```
 # Part 1
@@ -347,4 +347,26 @@ ggplot(reaction, aes(x = age)) +
        x = "Age",
        y = "Count")
 ```
+## Analysis
 
+```{r}
+#his example from lecture 20
+model3 <- lmer(na ~ orch + large + orch:large + (1 + large | id),
+               REML = FALSE,
+               data = music)
+summary(model3)
+
+model <- lmer(reaction ~ meaning + old + meaning:old + (1 + old | id),
+               REML = FALSE,
+               data = music)
+summary(model3)
+```
+
+## Example 4
+```{r}
+model3.reduced <- lmer(na ~ orch + large + orch:large + (1 | id),
+               REML = FALSE,
+               data = music)
+summary(model3.reduced)
+coef(model3.reduced)
+```
