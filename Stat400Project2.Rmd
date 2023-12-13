@@ -18,5 +18,5 @@ library(haven)
 For our dataset we chose to look at the set from https://github.com/ZacharyLees/Stat400Project/tree/main. This data set contains information about student math scores for diffeent teachers.
 
 ```{r}
-dataset = read_sav("C:/Users/kyler/Downloads/1ResearchProjectData.sav")
+dataset = read_csv("C:/Users/20lee/Downloads/application_data.csv/application_data.csv")
 ```

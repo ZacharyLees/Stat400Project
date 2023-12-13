@@ -222,7 +222,7 @@ For further analysis we will create a a model and test the variables' correlatio
 
 We want to analyze the model including all of our variables versus the reduced model, which doesn't include gender. 
 
-Since the difference between these two is only one variable, we can either do a Wald Test or a drop-in-deviance Test.
+Since the difference between these two is only one variable, we can either do a Wald Test or a Drop-in-Deviance Test. We will do a Drop-in-Deviance Test.
 
 ```{r}
 #makes models
@@ -251,11 +251,13 @@ Reject $H_0$. Since the p-value < 0.05, reject $H_0$.
 5. Conclusion: 
 We will use the model with the variable for gender.
 
+Looking at our model, we can see that the gender being male is positive. This means that the gender being female is a negative predictor. A negative predictor lowers our Target value, which represents the likelihood of a client defaulting or not. If someone is female, they have a lower likelihood of defaulting on a payment.
 
+We are 95% confidence that for CODE_GENDERM (Male), the defaults will increase by between 1.431200 and 1.511436, assuming all other variables are controlled in this model. Males have a greater odds of defaulting compared to females.
 
 ```{r}
-#problem with this
-exp(confint(model, level = 0.95))
+#CI
+exp(confint(model, "CODE_GENDERM", level = 0.95))
 ```
 
 From backward selection, we can see that none of the predictors we have are eliminated. This means that all of them are statistically significant. This reaffirms our drop-in-deviance test, where we were testing if a client being male or female was significant for determining defaults.
@@ -347,26 +349,43 @@ ggplot(reaction, aes(x = age)) +
        x = "Age",
        y = "Count")
 ```
-## Analysis
+
+
+## Bivariate Analysis
+
+When comparing the groups of young and old, we see that each quartile of old has longer reaction times compared to the young boxplot. There is also more variance between the old group compared to the young group.
 
 ```{r}
-#his example from lecture 20
-model3 <- lmer(na ~ orch + large + orch:large + (1 + large | id),
-               REML = FALSE,
-               data = music)
-summary(model3)
-
-model <- lmer(reaction ~ meaning + old + meaning:old + (1 + old | id),
-               REML = FALSE,
-               data = music)
-summary(model3)
+#old vs young reaction time
+ggplot(reaction, aes(x = factor(oldage, labels = c("Young", "Old")), y = rt_sec, fill = factor(oldage))) +
+  geom_boxplot() +
+  labs(title = "Reaction Time vs. Old Age",
+       x = "Age Group",
+       y = "Reaction Time (rt_sec)",
+       fill = "Age Group")
 ```
 
-## Example 4
+Comparing sex with reaction time doesn't appear to be very useful, the impact of sex doesn't seem too impactful. Female does seem to have slightly more variance between it's quartiles, which may suggest they have slightly lower reaction speeds on average; however, the two groups, male and female appear very similar.
+
 ```{r}
-model3.reduced <- lmer(na ~ orch + large + orch:large + (1 | id),
-               REML = FALSE,
-               data = music)
-summary(model3.reduced)
-coef(model3.reduced)
+#sex reaction time
+ggplot(reaction, aes(x = factor(sex, levels = c(0, 1), labels = c("Male", "Female")), y = rt_sec, fill = factor(sex))) +
+  geom_boxplot() +
+  labs(title = "Reaction Time vs. Sex",
+       x = "Sex",
+       y = "Reaction Time (rt_sec)",
+       fill = "Sex")
 ```
+
+Salience represents how attention grabbing the picture is. As we would expect, the least attention grabbing pictures have some of the highest reaction times, while most of the more attention grabbing pictures have lower reaction times, in general.
+
+```{r}
+#salience reaction time
+ggplot(reaction, aes(x = factor(salience), y = rt_sec, fill = factor(salience))) +
+  geom_boxplot() +
+  labs(title = "Reaction Time vs. Salience",
+       x = "Salience",
+       y = "Reaction Time (rt_sec)",
+       fill = "Salience")
+```
+
