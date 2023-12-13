@@ -411,6 +411,9 @@ coef(model.reduced)
 anova(model,model.reduced)
 ```
 
+1. H_0: there is no association between meaning and reaction time differ based on old age. 
+   H_1: the association between meaning and reaction time differ based on old age.
+   
 2. Test Statistic: Drop-in-deviance = 91.062
 
 3. p-value : $p =< 2.2e-16$
