@@ -390,6 +390,23 @@ ggplot(reaction, aes(x = factor(salience), y = rt_sec, fill = factor(salience)))
        fill = "Salience")
 ```
 ## Analysis
+```{r}
+model_int<-lmer(rt_sec ~ 1 + (1|id),data = reaction)
+summary(model_int)
+```
+ 
+Fixed Intercept:
+ 
+The fixed intercept is 7.4402 with a standard error of 0.2957 and a t-value of 25.16. This is the estimated intercept that represents the average reaction time when there are no other predictors in the model.
+ 
+The estimated variance of within participant is 12.31. The estimated variance for between participants.
+ 
+ 
+Intraclass correlation coefficient:
+ 
+p = 12.31/ (12.31 + 53.33) = 0.188
+ 
+18.8% of the total variation in rt_sec(reaction) are due to differences between participants.
 
 ```{r}
 #his example code pulled form lecture 21
@@ -426,21 +443,5 @@ Based upon our findings for from our standard deviation test between our full an
 
 We will use the full model because the association between meaning and reaction time differ based on old age.
 
-```{r}
-model_int<-lmer(rt_sec ~ 1 + (1|id),data = reaction)
-summary(model_int)
-```
- 
-Fixed Intercept:
- 
-The fixed intercept is 7.4402 with a standard error of 0.2957 and a t-value of 25.16. This is the estimated intercept that represents the average reaction time when there are no other predictors in the model.
- 
-The estimated variance of within participant is 12.31. The estimated variance for between participants.
- 
- 
-Intraclass correlation coefficient:
- 
-p = 12.31/ (12.31 + 53.33) = 0.188
- 
-18.8% of the total variation in rt_sec(reaction) are due to differences between participants.
+
 
