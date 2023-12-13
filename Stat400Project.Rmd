@@ -222,7 +222,7 @@ For further analysis we will create a a model and test the variables' correlatio
 
 We want to analyze the model including all of our variables versus the reduced model, which doesn't include gender. 
 
-Since the difference between these two is only one variable, we can either do a Wald Test or a drop-in-deviance Test.
+Since the difference between these two is only one variable, we can either do a Wald Test or a Drop-in-Deviance Test. We will do a Drop-in-Deviance Test.
 
 ```{r}
 #makes models
@@ -253,9 +253,11 @@ We will use the model with the variable for gender.
 
 Looking at our model, we can see that the gender being male is positive. This means that the gender being female is a negative predictor. A negative predictor lowers our Target value, which represents the likelihood of a client defaulting or not. If someone is female, they have a lower likelihood of defaulting on a payment.
 
+We are 95% confidence that for CODE_GENDERM (Male), the defaults will increase by between 1.431200 and 1.511436, assuming all other variables are controlled in this model. Males have a greater odds of defaulting compared to females.
+
 ```{r}
-#problem with this
-exp(confint(model, level = 0.95))
+#CI
+exp(confint(model, "CODE_GENDERM", level = 0.95))
 ```
 
 From backward selection, we can see that none of the predictors we have are eliminated. This means that all of them are statistically significant. This reaffirms our drop-in-deviance test, where we were testing if a client being male or female was significant for determining defaults.
