@@ -12,6 +12,7 @@ output: html_document
 library(tidyverse)
 library(readr)
 library(dplyr)
+library(lme4)
 
 #Import Data
 #C:/Users/20lee/Downloads/application_data.csv/application_data.csv
@@ -390,28 +391,23 @@ ggplot(reaction, aes(x = factor(salience), y = rt_sec, fill = factor(salience)))
 ```
 ## Analysis
 
-<<<<<<< HEAD
-=======
 ```{r}
-#his example from lecture 20
-model3 <- lmer(na ~ orch + large + orch:large + (1 + large | id),
-               REML = FALSE,
-               data = music)
-summary(model3)
+#his example code pulled form lecture 21
 
-model <- lmer(reaction ~ meaning + old + meaning:old + (1 + old | id),
+model <- lmer(rt_sec ~ meaning + oldage + meaning:oldage + (1 + oldage | id),
                REML = FALSE,
-               data = music)
-summary(model3)
+               data = reaction)
+summary(model)
+anova(model)
 ```
 
 ## Example 4
 ```{r}
-model3.reduced <- lmer(na ~ orch + large + orch:large + (1 | id),
+model.reduced <- lmer(rt_sec ~ meaning + oldage + meaning:oldage + (1 | id),
                REML = FALSE,
-               data = music)
-summary(model3.reduced)
-coef(model3.reduced)
+               data = reaction)
+summary(model.reduced)
+coef(model.reduced)
+anova(model,model.reduced)
 ```
 
->>>>>>> 2f8414fcb66378a42193a38f63c1088c19099db2
