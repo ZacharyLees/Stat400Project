@@ -425,3 +425,8 @@ Reject $H_0$. Since the p-value < 0.05, reject $H_0$.
 Based upon our findings for from our standard deviation test between our full and reduced model we can say that the full model is statistically significant over the reduced model and that the association between meaning and reaction time differ based on old age.
 
 We will use the full model because the association between meaning and reaction time differ based on old age.
+
+```{r}
+model_int<-lmer(rt_sec ~ 1 + (1|id),data = reaction)
+summary(model_int)
+```
